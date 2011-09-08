@@ -184,6 +184,8 @@ module OmniAuth
           uri = URI.parse(request.url.gsub(/\?.*$/,''))
           uri.path = ''
           uri.query = nil
+          #sometimes the url is actually showing http inside rails because the other layer (like ngnix) have handled the ssl
+          uri.scheme = 'https' if(request.env['HTTP_X_FORWARDED_PROTO'] == 'https')
           uri.to_s
       end
     end
